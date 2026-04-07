@@ -34,6 +34,19 @@ pytest                              # Run tests
 - **Input sanitization**: All identifiers go through `sanitize_identifier()`, VMIDs through `sanitize_vmid()`. Shell commands are parsed via `shlex`.
 - **Sensitive data**: Passwords, tokens, SSH keys, and network configs are redacted in logs. Never log raw values.
 
+## Git Workflow
+
+Use feature branches with PRs for every unit of work:
+
+1. `git checkout -b feat/<topic>` — branch off main before starting
+2. Work, then `/commit` when done
+3. Push and open a PR: `git push -u origin HEAD && gh pr create`
+4. Review the diff locally (`git diff main`) or on GitHub
+5. Merge: `gh pr merge --squash --delete-branch`
+6. Return to main: `git checkout main && git pull`
+
+One branch per session/feature. Squash merge keeps main history clean.
+
 ## Adding a New Tool
 
 1. Register the Proxmox endpoint and expected fields in `docs/api_manifest.md`.
