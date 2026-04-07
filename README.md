@@ -1,5 +1,9 @@
 # Proxmox MCP
 
+[![PyPI version](https://img.shields.io/pypi/v/proxmox-mcp)](https://pypi.org/project/proxmox-mcp/)
+[![Python 3.10+](https://img.shields.io/pypi/pyversions/proxmox-mcp)](https://pypi.org/project/proxmox-mcp/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 An MCP (Model Context Protocol) server for managing Proxmox VE infrastructure through AI agents. Control your virtual machines, containers, storage, and snapshots via natural language.
 
 > **WARNING: This project is under active development and is NOT intended for production use.**
@@ -31,20 +35,34 @@ An MCP (Model Context Protocol) server for managing Proxmox VE infrastructure th
 
 ---
 
-## Quick Start
+## Installation
+
+### From PyPI
 
 ```bash
-# 1. Clone and set up
+pip install proxmox-mcp
+```
+
+### From source
+
+```bash
 git clone https://github.com/josky-com/proxmox-mcp.git
 cd proxmox-mcp
 ./setup.sh
+```
 
-# 2. Configure credentials
+## Quick Start
+
+```bash
+# 1. Configure credentials
 cp .env.example .env
 nano .env    # Set your Proxmox URL, token name, and token value
 
-# 3. Test connectivity
+# 2. Test connectivity
 python scripts/test_connection.py
+
+# 3. Run the server
+python -m proxmox_mcp
 ```
 
 ### Environment Variables
@@ -146,7 +164,7 @@ proxmox-mcp/
 ├── scripts/
 │   ├── test_connection.py    # Manual connectivity testing
 │   └── admin_dashboard.py    # Live infrastructure overview
-├── tests/                    # pytest suite (sanitization, safety)
+├── tests/                    # pytest suite (152 tests, fully offline)
 ├── pyproject.toml            # Build config and dependencies
 ├── setup.sh                  # Automated setup script
 └── .env.example              # Credential template
@@ -154,12 +172,22 @@ proxmox-mcp/
 
 ---
 
+## Development
+
+```bash
+pip install -e ".[dev]"    # Install with test dependencies
+pytest -v                  # Run all 152 tests (no Proxmox needed)
+```
+
+All tests run fully offline — Proxmox API calls are mocked at the HTTP layer.
+
 ## Tech Stack
 
 - **Python 3.10+**
 - **MCP SDK** (`mcp`) — FastMCP server framework
 - **Pydantic** — Response validation and contract enforcement
 - **httpx** — Async HTTP client
+- **pytest** + **pytest-httpx** — Testing with HTTP mocking
 - **Transport** — stdio (JSON-RPC)
 
 ---
